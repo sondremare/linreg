@@ -1,14 +1,17 @@
 import numpy as np
 import pylab as pl
 
+#Calculates the predicted hypothesis value
 def prediction(x, weights, bias):
     return (x.dot(weights) + bias).flatten()
 
+#Calculates the mean squared error for the entire data set
 def mean_squared_error(x, y, weights, bias, size):
     predicted_value = prediction(x, weights, bias)
     return ((1/size)*(predicted_value - y)**2).sum()
 
 
+#Performs a gradient descent where the weights and bias are updated incrementally based on the learning rate
 def gradient_descent(x, y, weights, bias, learning_rate, size):
     weights_deriv = (2 / size) * (prediction(x, weights, bias) - y).dot(x)
     bias_deriv = (2 / size) * (prediction(x, weights, bias) - y)
@@ -16,9 +19,11 @@ def gradient_descent(x, y, weights, bias, learning_rate, size):
     bias = bias - (learning_rate * bias_deriv.sum())
     return weights, bias
 
+#Loading test and training data
 training_data = np.loadtxt('data-train.csv', delimiter=',')
 test_data = np.loadtxt('data-test.csv', delimiter=',')
 
+#Splitting up the data into x-variables and y-output
 x = training_data[:, :2]
 y = training_data[:, 2]
 x_test = test_data[:, :2]
@@ -28,6 +33,8 @@ size = y.size
 test_size = y_test.size
 iterations = 87
 learning_rate = 0.1
+
+#initializing weights and bias
 weights = np.ones(shape=(2,1)).flatten()
 bias = 1
 
