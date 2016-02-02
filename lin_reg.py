@@ -21,20 +21,30 @@ test_data = np.loadtxt('data-test.csv', delimiter=',')
 
 x = training_data[:, :2]
 y = training_data[:, 2]
+x_test = test_data[:, :2]
+y_test = test_data[:, 2]
 
 size = y.size
-iterations = 100
-learning_rate = 0.01
-weights = np.zeros(shape=(2,1)).flatten()
-bias = 0
+test_size = y_test.size
+iterations = 87
+learning_rate = 0.1
+weights = np.ones(shape=(2,1)).flatten()
+bias = 1
 
 error_array = []
+error_test_array = []
 for i in range(iterations):
     weights, bias = gradient_descent(x, y, weights, bias, learning_rate, size)
-    error = mean_squared_error(x,y,weights,bias,size)
+    error = mean_squared_error(x, y, weights, bias, size)
     error_array.append(error)
+    error_test = mean_squared_error(x_test, y_test, weights, bias, test_size)
+    error_test_array.append(error_test)
 
+print("weight",weights)
+print("bias",bias)
+print("error", error)
+print("test error", error_test)
 pl.plot(pl.arange(iterations), error_array)
 pl.xlabel('Iterations')
-pl.ylabel('Mean Squared Error')
+pl.ylabel('Mean Squared Error (training)')
 pl.show()
